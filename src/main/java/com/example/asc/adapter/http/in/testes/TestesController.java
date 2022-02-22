@@ -16,7 +16,7 @@ public class TestesController {
     @GetMapping("/teste-get")
     public ResponseEntity<?> testGet(@RequestBody UsuarioDtoEntrada usuarioDtoEntrada){
         System.out.println();
-        return ResponseEntity.ok("Teste Get");
+        return ResponseEntity.ok("Teste LALALALALALALALALLAA");
     }
 
     @PutMapping("/teste-put")
