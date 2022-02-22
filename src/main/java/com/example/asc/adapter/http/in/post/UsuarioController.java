@@ -22,6 +22,6 @@ public class UsuarioController {
     @PostMapping("/cadastrar")
     public ResponseEntity<?> cadastrar(@RequestBody UsuarioDtoEntrada usuarioDtoEntrada){
         System.out.println();
-        return ResponseEntity.ok("Teste");
+        return ResponseEntity.ok("Teste Post");
     }
 }
