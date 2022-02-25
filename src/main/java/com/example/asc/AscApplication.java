@@ -14,6 +14,7 @@ public class AscApplication {
         SpringApplication.run(AscApplication.class, args);
     }
 
+/*
     @Component
     public static class Runner implements ApplicationRunner{
 
@@ -22,5 +23,6 @@ public class AscApplication {
 
         }
     }
+*/
 
 }
