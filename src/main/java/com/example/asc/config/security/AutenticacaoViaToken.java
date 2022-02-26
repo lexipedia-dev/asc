@@ -1,8 +1,12 @@
 package com.example.asc.config.security;
 
+import com.example.asc.core.domain.Usuario;
+import com.example.asc.core.repositories.UsuarioRepository;
 import com.fasterxml.jackson.databind.ser.std.TokenBufferSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.token.TokenService;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -18,6 +22,7 @@ import java.io.IOException;
 public class AutenticacaoViaToken extends OncePerRequestFilter {
 
     private TokenServiceAsc tokenService;
+    private UsuarioRepository usuarioRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -26,9 +31,18 @@ public class AutenticacaoViaToken extends OncePerRequestFilter {
 
         String token = recuperarToken(request);
         boolean tokenValido = tokenService.tokenValido(token);
-        System.out.println(tokenValido);
+        if(tokenValido){
+            autenticarCliente(token);
+        }
 
         filterChain.doFilter(request, response);
+    }
+
+    private void autenticarCliente(String token) {
+        Integer idUsuario = tokenService.getIdUsuario(token);
+        Usuario usuario = usuarioRepository.findById(idUsuario).get();
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     private String recuperarToken(HttpServletRequest request) {

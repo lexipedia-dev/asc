@@ -1,6 +1,7 @@
 package com.example.asc.config.security;
 
 import com.example.asc.core.domain.Usuario;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,5 +41,10 @@ public class TokenServiceAsc {
         } catch (Exception ex){
             return false;
         }
+    }
+
+    public Integer getIdUsuario(String token) {
+        Claims body = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
+        return Integer.parseInt(body.getSubject());
     }
 }
