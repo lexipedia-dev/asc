@@ -1,9 +1,7 @@
-package com.example.asc.core.repositories;
+package com.example.asc.adapter.http.repositories;
 
 import com.example.asc.core.domain.Patologia;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.Optional;
 
 public interface PatologiaRepository extends JpaRepository<Patologia, Integer> {
 }

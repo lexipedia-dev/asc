@@ -1,5 +1,6 @@
 package com.example.asc.core.domain;
 
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -17,6 +18,7 @@ public class Perfil implements GrantedAuthority {
     private Integer id;
 
     private String nome;
+
 
     @Override
     public String getAuthority() {

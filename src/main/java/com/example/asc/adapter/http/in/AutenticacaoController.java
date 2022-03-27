@@ -1,4 +1,4 @@
-package com.example.asc.adapter.http.in.post;
+package com.example.asc.adapter.http.in;
 
 import com.example.asc.adapter.http.dto.entrada.LoginDtoIn;
 import com.example.asc.adapter.http.dto.saida.TokenDtoOut;

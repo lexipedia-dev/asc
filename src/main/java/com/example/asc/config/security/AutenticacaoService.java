@@ -1,7 +1,7 @@
 package com.example.asc.config.security;
 
 import com.example.asc.core.domain.Usuario;
-import com.example.asc.core.repositories.UsuarioRepository;
+import com.example.asc.adapter.http.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

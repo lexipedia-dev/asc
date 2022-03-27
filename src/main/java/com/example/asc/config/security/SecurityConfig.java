@@ -1,6 +1,6 @@
 package com.example.asc.config.security;
 
-import com.example.asc.core.repositories.UsuarioRepository;
+import com.example.asc.adapter.http.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +12,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.token.TokenService;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -47,12 +45,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
                 .antMatchers(HttpMethod.POST, "/usuario/cadastrar").permitAll()
+                .antMatchers(HttpMethod.POST, "/usuario/cadastrar-admin").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
-                .antMatchers("/h2-console").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/usuario/teste").hasRole("COMUM")
+                .antMatchers( HttpMethod.POST, "/recado").hasRole("ADMIN")
+                .antMatchers( HttpMethod.DELETE, "/recado/**").hasRole("ADMIN")
+                .antMatchers( HttpMethod.PUT, "/recado/**").hasRole("ADMIN")
+                .antMatchers( HttpMethod.PUT, "/usuario/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().addFilterBefore(new AutenticacaoViaToken(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class);
+        //ACESSO À PÁGINA H2(BANCO EM MEMÓRIA)
+        http.headers().frameOptions().disable();
     }
 
     //CONFIGURAÇÕES DE RECURSOS ESTÁTICOS(ARQUIVOS HTML, CSS, JAVASCRIPT, IMAGENS)

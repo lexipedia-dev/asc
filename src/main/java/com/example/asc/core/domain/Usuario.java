@@ -38,7 +38,14 @@ public class Usuario implements UserDetails {
     @NotBlank
     private String senha;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.PERSIST)
+    @JoinTable(
+            name = "usuario_perfil",
+            joinColumns = @JoinColumn(
+                    name = "usuario_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id")
+            )
     private List<Perfil> perfis = new ArrayList<Perfil>();
 
     @Override
