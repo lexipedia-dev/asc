@@ -48,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //CONFIGURAÇÕES DE AUTORIZAÇÃO(URLS, PERFIS DE ACESSO À URLS, ETC.)
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.cors().and().csrf().disable();
         http.authorizeHttpRequests()
                 .antMatchers(HttpMethod.POST, "/usuario/cadastrar").permitAll()
                 .antMatchers(HttpMethod.POST, "/usuario/cadastrar-admin").permitAll()
