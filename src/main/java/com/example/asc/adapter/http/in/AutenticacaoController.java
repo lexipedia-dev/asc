@@ -32,8 +32,8 @@ public class AutenticacaoController {
     @PostMapping
     public ResponseEntity<?> autenticar(@RequestBody @Valid LoginDtoIn form){
         Optional<Usuario> optionalUsuario = usuarioRepository.findByEmail(form.getEmail());
-        if(optionalUsuario.get() == null){
-            ResponseEntity.notFound().build();
+        if(!optionalUsuario.isPresent()){
+            return ResponseEntity.notFound().build();
         }
         UsernamePasswordAuthenticationToken dadosLogin = form.gerarDadosLogin();
         try {
