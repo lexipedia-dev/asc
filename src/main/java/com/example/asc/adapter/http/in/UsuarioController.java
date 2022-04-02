@@ -23,7 +23,7 @@ public class UsuarioController {
     @Autowired
     private RoleRepository roleRepository;
 
-    @PostMapping("/cadastrar")
+    @PostMapping("")
     public ResponseEntity<?> cadastrarUsuario(@RequestBody @NotNull Usuario usuario){
         usuario.encryptPassword();
         usuarioRepository.save(usuario);
