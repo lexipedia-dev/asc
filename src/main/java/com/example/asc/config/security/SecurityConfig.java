@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable();
         http.authorizeHttpRequests()
-                .antMatchers(HttpMethod.POST, "/usuario/cadastrar").permitAll()
+                .antMatchers(HttpMethod.POST, "/usuario").permitAll()
                 .antMatchers(HttpMethod.POST, "/usuario/cadastrar-admin").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
