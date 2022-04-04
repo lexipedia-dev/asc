@@ -15,7 +15,7 @@ public class Perfil implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer id;     
 
     private String nome;
 
