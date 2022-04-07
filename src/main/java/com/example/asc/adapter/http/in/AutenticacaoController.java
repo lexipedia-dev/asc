@@ -3,13 +3,10 @@ package com.example.asc.adapter.http.in;
 import com.example.asc.adapter.http.dto.entrada.LoginDtoIn;
 import com.example.asc.adapter.http.dto.saida.TokenDtoOut;
 import com.example.asc.adapter.http.repositories.UsuarioRepository;
-import com.example.asc.config.security.TokenServiceAsc;
 import com.example.asc.core.domain.Usuario;
+import com.example.asc.core.ports.AutenticacaoUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,13 +18,10 @@ import java.util.Optional;
 public class AutenticacaoController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private TokenServiceAsc tokenService;
-
-    @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private AutenticacaoUseCase autenticacaoUseCase;
 
     @PostMapping
     public ResponseEntity<?> autenticar(@RequestBody @Valid LoginDtoIn form){
@@ -35,12 +29,10 @@ public class AutenticacaoController {
         if(!optionalUsuario.isPresent()){
             return ResponseEntity.notFound().build();
         }
-        UsernamePasswordAuthenticationToken dadosLogin = form.gerarDadosLogin();
+
         try {
-            Authentication authentication = authenticationManager.authenticate(dadosLogin);
-            String token = tokenService.gerarToken(authentication);
-            System.out.println(token);
-            return ResponseEntity.ok(new TokenDtoOut(token, "Bearer"));
+            TokenDtoOut tokenDtoOut = new TokenDtoOut(autenticacaoUseCase.autenticar(form), "Bearer");
+            return ResponseEntity.ok(tokenDtoOut);
         } catch (AuthenticationException ex){
             return ResponseEntity.badRequest().build();
         }
