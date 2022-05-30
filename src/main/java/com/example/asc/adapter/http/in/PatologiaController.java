@@ -3,6 +3,7 @@ package com.example.asc.adapter.http.in;
 import com.example.asc.adapter.http.repositories.PatologiaRepository;
 import com.example.asc.core.domain.Patologia;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +22,11 @@ public class PatologiaController {
     }
 
     @GetMapping
-    public ResponseEntity<?> buscarPatologias(){
-        return ResponseEntity.ok().body(patologiaRepository.findAll());
+    public ResponseEntity<?> buscarPatologias(@Param("nome")String nome){
+        if(nome == null){
+            return ResponseEntity.ok().body(patologiaRepository.findAll());
+        }
+        return  ResponseEntity.ok().body(patologiaRepository.findByQuery("Patologia", "nome", nome));
     }
 
     @GetMapping("/{idPatologia}")
